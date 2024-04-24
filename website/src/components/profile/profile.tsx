@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const Profile = () => {
 
     return (
@@ -5,7 +7,7 @@ const Profile = () => {
             <h2 className="text-3xl font-semibold text-center text-white">My licences</h2>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-4 mt-8">
                 {new Array(6).fill(0).map((_, i) => (
-                    <a href="#" className="group relative block bg-black">
+                    <Link to={`/licence/${i}`} className="group relative block bg-black">
                         <img
                             alt=""
                             src="https://images.unsplash.com/photo-1603871165848-0aa92c869fa1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=772&q=80"
@@ -28,7 +30,7 @@ const Profile = () => {
                                 </div>
                             </div>
                         </div>
-                    </a>
+                    </Link>
                 ))}
             </div>
         </div>

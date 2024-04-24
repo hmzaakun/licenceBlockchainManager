@@ -1,7 +1,7 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
-const Header = ({setShowLogin, setShowSignup}) => {
+const Header = ({setShowLogin, setShowSignup}: {setShowLogin: any, setShowSignup: any}) => {
     const [user,] = useState("null");
 
     return (
@@ -11,19 +11,19 @@ const Header = ({setShowLogin, setShowSignup}) => {
                     <nav aria-label="Global" className="hidden md:block">
                         <ul className="flex items-center gap-6 text-sm">
                             <li>
-                                <Link to={"/"} className="text-gray-500 transition hover:text-gray-500/75" href="#"> Home </Link>
+                                <Link to={"/"} className="text-gray-500 transition hover:text-gray-500/75"> Home </Link>
                             </li>
                             <li>
-                                <Link to={"/Licences"} className="text-gray-500 transition hover:text-gray-500/75" href="#"> Licences </Link>
+                                <Link to={"/Licences"} className="text-gray-500 transition hover:text-gray-500/75"> Licences </Link>
                             </li>
                             {user &&
                                 <>
                                     <li>
-                                        <Link to={"/Profile"} className="text-gray-500 transition hover:text-gray-500/75" href="#"> My licences </Link>
+                                        <Link to={"/Profile"} className="text-gray-500 transition hover:text-gray-500/75"> My licences </Link>
                                     </li>
 
                                     <li>
-                                        <Link to={"/Create"} className="text-gray-500 transition hover:text-gray-500/75" href="#"> Create </Link>
+                                        <Link to={"/Create"} className="text-gray-500 transition hover:text-gray-500/75"> Create </Link>
                                     </li>
                                 </>
                             }

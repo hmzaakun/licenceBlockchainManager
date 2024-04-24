@@ -1,6 +1,6 @@
-const Login = ({ showLogin, setShowLogin }) => {
+const Login = ({ showLogin, setShowLogin }: { showLogin: boolean, setShowLogin: any }) => {
     return (
-        showLogin &&
+        showLogin ?
         <div className="h-screen absolute z-50 bg-black/30 w-full flex items-center">
             <div className="bg-slate-950 relative rounded-lg mx-auto w-2/5 px-4 py-16 sm:px-6 lg:px-8">
                 <div className="mx-auto max-w-lg text-center">
@@ -71,12 +71,7 @@ const Login = ({ showLogin, setShowLogin }) => {
                         </div>
                     </div>
 
-                    <div className="flex items-center justify-between">
-                        <p className="text-sm text-gray-300">
-                            No account?
-                            <a className="underline" href="#">Sign up</a>
-                        </p>
-
+                    <div className="flex items-center justify-center">
                         <button
                             type="submit"
                             className="inline-block rounded-lg bg-blue-500 px-5 py-3 text-sm font-medium text-white"
@@ -87,6 +82,8 @@ const Login = ({ showLogin, setShowLogin }) => {
                 </form>
             </div>
         </div>
+        :
+        <></>
     );
 }
 

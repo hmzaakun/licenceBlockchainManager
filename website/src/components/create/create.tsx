@@ -16,7 +16,7 @@ const Create = () => {
                     <textarea
                         className="w-full rounded-lg border-gray-200 p-3 text-sm"
                         placeholder="Description"
-                        rows="8"
+                        rows={8}
                         id="description"
                     ></textarea>
                     <label className="block">
@@ -28,7 +28,7 @@ const Create = () => {
                 <div className="text-center">
                     <button
                         type="submit"
-                        class="inline-block w-full rounded-lg bg-black px-5 py-3 font-medium text-white sm:w-auto"
+                        className="inline-block w-full rounded-lg bg-black px-5 py-3 font-medium text-white sm:w-auto"
                     >
                         Send Enquiry
                     </button>
