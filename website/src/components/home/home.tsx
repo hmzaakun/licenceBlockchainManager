@@ -1,15 +1,13 @@
 import { Stars } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
-import React, { useEffect } from "react";
 import { FiArrowRight } from "react-icons/fi";
 import {
     useMotionTemplate,
-    useMotionValue,
     motion,
-    animate,
+    MotionValue,
 } from "framer-motion";
 
-const Home = ({color, setShowSignup}) => {
+const Home = ({color, setShowSignup}: {color: MotionValue<string>, setShowSignup: any}) => {
 
     const border = useMotionTemplate`1px solid ${color}`;
     const boxShadow = useMotionTemplate`0px 4px 24px ${color}`;

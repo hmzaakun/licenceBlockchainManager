@@ -1,6 +1,6 @@
-const Signup = ({ showSignup, setShowSignup }) => {
+const Signup = ({ showSignup, setShowSignup }: { showSignup: boolean, setShowSignup: Function }) => {
     return (
-        showSignup &&
+        showSignup ?
         <div className="h-screen fixed z-50 bg-black/30 w-full flex items-center cursor-pointer">
             <div className="bg-slate-950 relative rounded-lg mx-auto w-2/5 px-4 py-16 sm:px-6 lg:px-8 cursor-auto">
                 <div className="mx-auto max-w-lg text-center">
@@ -81,6 +81,8 @@ const Signup = ({ showSignup, setShowSignup }) => {
                 </form>
             </div>
         </div>
+        :
+        <></>
     );
 }
 
