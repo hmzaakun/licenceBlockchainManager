@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 
-const Header = () => {
+const Header = ({setShowLogin, setShowSignup}) => {
     const [user,] = useState("null");
 
     return (
@@ -32,16 +32,16 @@ const Header = () => {
 
                     <div className="flex items-center gap-4">
                         <div className="sm:flex sm:gap-4">
-                            <button
+                            <button onClick={()=>setShowLogin(true)}
                                 className={`block rounded-md px-5 py-2.5 text-sm font-medium text-gray-300 transition`}
                             >
                                 Login
                             </button>
 
-                            <button
+                            <button onClick={()=>setShowSignup(true)}
                                 className="hidden rounded-md bg-gray-300 px-5 py-2.5 text-sm font-medium text-gray-950 transition sm:block"
                             >
-                                Register
+                                Sign up
                             </button>
                         </div>
 

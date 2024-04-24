@@ -1,11 +1,12 @@
-const Signup = () => {
+const Signup = ({ showSignup, setShowSignup }) => {
     return (
+        showSignup &&
         <div className="h-screen fixed z-50 bg-black/30 w-full flex items-center cursor-pointer">
             <div className="bg-slate-950 relative rounded-lg mx-auto w-2/5 px-4 py-16 sm:px-6 lg:px-8 cursor-auto">
                 <div className="mx-auto max-w-lg text-center">
-                    <h1 className="text-2xl font-bold sm:text-3xl text-white">Login</h1>
+                    <h1 className="text-2xl font-bold sm:text-3xl text-white">Sign up</h1>
                 </div>
-                <button className="text-white absolute top-4 right-4">
+                <button onClick={()=>setShowSignup(false)} className="text-white absolute top-4 right-4">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                 </button>
 

@@ -1,98 +1,36 @@
 const Profile = () => {
+
     return (
-        <div className="rounded-lg mx-auto max-w-xl p-8 shadow-lg lg:col-span-3 lg:p-12 lg:pt-24">
-            <h2 className="text-2xl font-semibold text-center">Create licence</h2>
-            <form action="#" className="space-y-4">
-                <div>
-                    <label className="sr-only" for="name">Name</label>
-                    <input
-                        className="w-full rounded-lg border-gray-200 p-3 text-sm"
-                        placeholder="Name"
-                        type="text"
-                        id="name"
-                    />
-                </div>
-
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                    <div>
-                        <label className="sr-only" for="email">Email</label>
-                        <input
-                            className="w-full rounded-lg border-gray-200 p-3 text-sm"
-                            placeholder="Email address"
-                            type="email"
-                            id="email"
+        <div className="rounded-lg mx-auto p-8 shadow-lg lg:col-span-3 lg:p-12 lg:pt-24">
+            <h2 className="text-3xl font-semibold text-center text-white">My licences</h2>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-4 mt-8">
+                {new Array(6).fill(0).map((_, i) => (
+                    <a href="#" className="group relative block bg-black">
+                        <img
+                            alt=""
+                            src="https://images.unsplash.com/photo-1603871165848-0aa92c869fa1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=772&q=80"
+                            className="absolute inset-0 h-full w-full object-cover opacity-75 transition-opacity group-hover:opacity-50"
                         />
-                    </div>
 
-                    <div>
-                        <label className="sr-only" for="phone">Phone</label>
-                        <input
-                            className="w-full rounded-lg border-gray-200 p-3 text-sm"
-                            placeholder="Phone Number"
-                            type="tel"
-                            id="phone"
-                        />
-                    </div>
-                </div>
+                        <div className="relative p-4 sm:p-6 lg:p-8">
+                            <p className="text-sm font-medium uppercase tracking-widest text-pink-500">Licence</p>
 
-                <div className="grid grid-cols-1 gap-4 text-center sm:grid-cols-3">
-                    <div>
-                        <label
-                            for="Option1"
-                            className="block w-full cursor-pointer rounded-lg border border-gray-200 p-3 text-gray-600 hover:border-black has-[:checked]:border-black has-[:checked]:bg-black has-[:checked]:text-white"
-                            tabindex="0"
-                        >
-                            <input className="sr-only" id="Option1" type="radio" tabindex="-1" name="option" />
+                            <p className="text-xl font-bold text-white sm:text-2xl">Licence name</p>
 
-                            <span className="text-sm"> Option 1 </span>
-                        </label>
-                    </div>
-
-                    <div>
-                        <label
-                            for="Option2"
-                            className="block w-full cursor-pointer rounded-lg border border-gray-200 p-3 text-gray-600 hover:border-black has-[:checked]:border-black has-[:checked]:bg-black has-[:checked]:text-white"
-                            tabindex="0"
-                        >
-                            <input className="sr-only" id="Option2" type="radio" tabindex="-1" name="option" />
-
-                            <span className="text-sm"> Option 2 </span>
-                        </label>
-                    </div>
-
-                    <div>
-                        <label
-                            for="Option3"
-                            className="block w-full cursor-pointer rounded-lg border border-gray-200 p-3 text-gray-600 hover:border-black has-[:checked]:border-black has-[:checked]:bg-black has-[:checked]:text-white"
-                            tabindex="0"
-                        >
-                            <input className="sr-only" id="Option3" type="radio" tabindex="-1" name="option" />
-
-                            <span className="text-sm"> Option 3 </span>
-                        </label>
-                    </div>
-                </div>
-
-                <div>
-                    <label className="sr-only" for="message">Message</label>
-
-                    <textarea
-                        className="w-full rounded-lg border-gray-200 p-3 text-sm"
-                        placeholder="Message"
-                        rows="8"
-                        id="message"
-                    ></textarea>
-                </div>
-
-                <div className="mt-4">
-                    <button
-                        type="submit"
-                        className="inline-block w-full rounded-lg bg-black px-5 py-3 font-medium text-white sm:w-auto"
-                    >
-                        Send Enquiry
-                    </button>
-                </div>
-            </form>
+                            <div className="mt-32">
+                                <div
+                                    className="translate-y-8 transform opacity-0 transition-all group-hover:translate-y-0 group-hover:opacity-100"
+                                >
+                                    <p className="text-sm text-white">
+                                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Omnis perferendis hic asperiores
+                                        quibusdam quidem voluptates doloremque reiciendis nostrum harum. Repudiandae?
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                ))}
+            </div>
         </div>
     )
 }
