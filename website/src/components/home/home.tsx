@@ -7,7 +7,7 @@ import {
     MotionValue,
 } from "framer-motion";
 
-const Home = ({color, setShowSignup}: {color: MotionValue<string>, setShowSignup: any}) => {
+const Home = ({color}: {color: MotionValue<string>}) => {
 
     const border = useMotionTemplate`1px solid ${color}`;
     const boxShadow = useMotionTemplate`0px 4px 24px ${color}`;
@@ -32,7 +32,6 @@ const Home = ({color, setShowSignup}: {color: MotionValue<string>, setShowSignup
                     whileTap={{
                         scale: 0.985,
                     }}
-                    onClick={() => setShowSignup(true)}
                     className="group relative flex w-fit items-center gap-1.5 rounded-full bg-gray-950/10 px-4 py-2 text-gray-50 transition-colors hover:bg-gray-950/50"
                 >
                     Register now
