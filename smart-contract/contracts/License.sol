@@ -8,13 +8,15 @@ import "./utils/SafeMath.sol";
 contract LicenseFactory is ReentrancyGuard {
     address public Owner;
     address[] private collections;
+    address public smartAccountTreasury;
 
     // mapping creator to collection
     mapping(address => address[]) public creatorCollections;
     // creator and earned amount
     mapping(address => uint256) public creatorEarned;
-    constructor() {
+    constructor(address _smartAccountTreasury) {
         Owner = msg.sender;
+        smartAccountTreasury = _smartAccountTreasury;
     }
 
     function createLicenseCollection(
@@ -29,7 +31,7 @@ contract LicenseFactory is ReentrancyGuard {
             _symbol,
             _mintPrice,
             _maxSupply,
-            address(this),
+            smartAccountTreasury,
             _URI
         );
         collections.push(address(newNFT));
@@ -67,7 +69,7 @@ contract LicenseFactory is ReentrancyGuard {
         NFTCollection(collectionAddress).mint{value: msg.value}();
         uint quantity = msg.value /
             NFTCollection(collectionAddress).getMintPrice();
-        uint256 platformFee = (msg.value * 2) / 100;
+        uint256 platformFee = SafeMath.div(SafeMath.mul(msg.value, 2), 100);
         uint256 creatorFee = msg.value - platformFee;
         creatorEarned[
             NFTCollection(collectionAddress).getCreator()
@@ -85,16 +87,24 @@ contract LicenseFactory is ReentrancyGuard {
         }
     }
 
-    function claim(uint _index) public {
+    function claim(uint _index) public nonReentrant {
         address collectionAddress = getCollection(_index);
         NFTCollection nftCollection = NFTCollection(collectionAddress);
         require(
             nftCollection.getCreator() == msg.sender,
             "Only creator can claim"
         );
+
         uint earned = creatorEarned[msg.sender];
+
+        require(earned > 0, "No funds to claim");
+
         creatorEarned[msg.sender] = 0;
-        (bool sent, ) = msg.sender.call{value: earned}("");
+
+        (bool sent, ) = (msg.sender).call{value: earned}("");
         require(sent, "Failed to send ether");
     }
+
+    receive() external payable {}
+    fallback() external payable {}
 }
