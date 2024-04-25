@@ -34,4 +34,14 @@ async function pinJSONToIPFS(name: string, data: string) {
   }
 }
 
-export { pinFileToIPFS, pinJSONToIPFS };
+async function getJsonInfos(url: string) {
+  try {
+      const response = await axios.get(url);
+      return response.data;
+  } catch (error) {
+      console.log("Error pinning JSON data to IPFS: ", error);
+      return null;
+  }
+}
+
+export { pinFileToIPFS, pinJSONToIPFS, getJsonInfos };
