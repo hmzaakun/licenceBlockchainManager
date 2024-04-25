@@ -1,8 +1,13 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import Connect from "../connexion/connectButton";
+import { useConnectedWallets } from "thirdweb/react";
+import BuyWithMoonpay from "../connexion/buyCrypto";
 
-const Header = ({setShowLogin, setShowSignup}: {setShowLogin: any, setShowSignup: any}) => {
+const Header = () => {
     const [user,] = useState("null");
+    const wallets = useConnectedWallets();
+    const [showModal, setShowModal] = useState(false);
 
     return (
         <header className="absolute z-40 w-full">
@@ -31,18 +36,16 @@ const Header = ({setShowLogin, setShowSignup}: {setShowLogin: any, setShowSignup
                     </nav>
 
                     <div className="flex items-center gap-4">
-                        <div className="sm:flex sm:gap-4">
-                            <button onClick={()=>setShowLogin(true)}
-                                className={`block rounded-md px-5 py-2.5 text-sm font-medium text-gray-300 transition`}
-                            >
-                                Login
-                            </button>
-
-                            <button onClick={()=>setShowSignup(true)}
-                                className="hidden rounded-md bg-gray-300 px-5 py-2.5 text-sm font-medium text-gray-950 transition sm:block"
-                            >
-                                Sign up
-                            </button>
+                        <div className="sm:flex sm:gap-2 items-center">
+                            <Connect />
+                            {wallets.length > 0 && (
+                                <button
+                                    onClick={() => setShowModal(true)}
+                                    className="block rounded-md bg-gray-300 px-5 py-2.5 text-sm font-medium text-gray-950 transition"
+                                >
+                                    Buy crypto
+                                </button>
+                            )}
                         </div>
 
                         <button
@@ -63,6 +66,7 @@ const Header = ({setShowLogin, setShowSignup}: {setShowLogin: any, setShowSignup
                     </div>
                 </div>
             </div>
+            <BuyWithMoonpay visible={showModal} />
         </header>
     );
 }
