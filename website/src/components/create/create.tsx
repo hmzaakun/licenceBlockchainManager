@@ -29,7 +29,6 @@ const Create = () => {
             // TODO : ADD DEPLOY CONTRACT
         }
         setMessage("Licence created");
-
     }
 
     async function uploadImage() {
