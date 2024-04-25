@@ -44,23 +44,33 @@ contract NFTCollection is ERC721, ReentrancyGuard {
             "Exceeds max supply"
         );
 
-        uint totalPlatformFee = SafeMath.div(
+        // Calcul du montant de la taxe de plateforme
+        uint256 platformFee = SafeMath.div(
             SafeMath.mul(msg.value, platformFeePercentage),
             100
         );
-        (bool platformFeeSent, ) = platformFeeAddress.call{
-            value: totalPlatformFee
-        }("");
+
+        // Vérifier que la taxe de plateforme est supérieure à zéro
+        require(platformFee > 0, "Must pay a platform fee");
+
+        // Vérifier que le contrat dispose d'un solde suffisant pour payer la taxe de plateforme
+        require(address(this).balance >= platformFee, "Insufficient balance");
+
+        // Effectuer le transfert de la taxe de plateforme
+        (bool platformFeeSent, ) = platformFeeAddress.call{value: platformFee}(
+            ""
+        );
         require(platformFeeSent, "Failed to send platform fee");
 
-        (bool factorySent, ) = factoryAddress.call{
-            value: SafeMath.sub(msg.value, totalPlatformFee)
-        }("");
+        // Distribuer les fonds restants au créateur
+        uint256 creatorFunds = msg.value - platformFee;
+        (bool factorySent, ) = factoryAddress.call{value: creatorFunds}("");
         require(factorySent, "Failed to send creator fund");
 
+        // Incrémenter le totalSupply et émettre les tokens
         for (uint256 i = 0; i < quantity; i++) {
             totalSupply = SafeMath.add(totalSupply, 1);
-            _safeMint(msg.sender, totalSupply);
+            _mint(msg.sender, totalSupply);
         }
     }
 
@@ -80,7 +90,7 @@ contract NFTCollection is ERC721, ReentrancyGuard {
         return platformFeeAddress;
     }
 
-    function getPlatformFeePercentage() public view returns (uint256) {
+    function getPlatformFeePercentage() public pure returns (uint256) {
         return platformFeePercentage;
     }
 

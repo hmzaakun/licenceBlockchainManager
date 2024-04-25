@@ -8,13 +8,15 @@ import "./utils/SafeMath.sol";
 contract LicenseFactory is ReentrancyGuard {
     address public Owner;
     address[] private collections;
+    address public smartAccountTreasury;
 
     // mapping creator to collection
     mapping(address => address[]) public creatorCollections;
     // creator and earned amount
     mapping(address => uint256) public creatorEarned;
-    constructor() {
+    constructor(address _smartAccountTreasury) {
         Owner = msg.sender;
+        smartAccountTreasury = _smartAccountTreasury;
     }
 
     function createLicenseCollection(
@@ -29,7 +31,7 @@ contract LicenseFactory is ReentrancyGuard {
             _symbol,
             _mintPrice,
             _maxSupply,
-            address(this),
+            smartAccountTreasury,
             _URI
         );
         collections.push(address(newNFT));
@@ -38,6 +40,12 @@ contract LicenseFactory is ReentrancyGuard {
 
     function getCollection(uint _index) public view returns (address) {
         return collections[_index];
+    }
+
+    function getPlatformFeeAddress(uint _index) public view returns (address) {
+        address collectionAddress = getCollection(_index);
+        NFTCollection nftCollection = NFTCollection(collectionAddress);
+        return nftCollection.getPlatformFeeAddress();
     }
 
     function getAllCollections() external view returns (address[] memory) {
@@ -59,33 +67,44 @@ contract LicenseFactory is ReentrancyGuard {
     function mintCollection(uint _index) public payable {
         address collectionAddress = getCollection(_index);
         NFTCollection(collectionAddress).mint{value: msg.value}();
-        // apres le mint il faut envoyer les token de ce contract a l'acheteur
         uint quantity = msg.value /
-            NFTCollection(collectionAddress).mintPrice();
-        for (uint i = 0; i < quantity; i++) {
-            NFTCollection(collectionAddress).safeTransferFrom(
-                address(this),
-                msg.sender,
-                NFTCollection(collectionAddress).totalSupply() - 1
-            );
-        }
-        uint256 platformFee = (msg.value * 2) / 100;
+            NFTCollection(collectionAddress).getMintPrice();
+        uint256 platformFee = SafeMath.div(SafeMath.mul(msg.value, 2), 100);
         uint256 creatorFee = msg.value - platformFee;
         creatorEarned[
             NFTCollection(collectionAddress).getCreator()
         ] += creatorFee;
+
+        for (uint i = 0; i < quantity; i++) {
+            NFTCollection(collectionAddress).safeTransferFrom(
+                address(this),
+                msg.sender,
+                NFTCollection(collectionAddress).getTotalSupply() -
+                    quantity +
+                    i +
+                    1
+            );
+        }
     }
 
-    function claim(uint _index) public nonReentrant entrancy {
+    function claim(uint _index) public nonReentrant {
         address collectionAddress = getCollection(_index);
         NFTCollection nftCollection = NFTCollection(collectionAddress);
         require(
             nftCollection.getCreator() == msg.sender,
             "Only creator can claim"
         );
+
         uint earned = creatorEarned[msg.sender];
+
+        require(earned > 0, "No funds to claim");
+
         creatorEarned[msg.sender] = 0;
-        (bool sent, ) = msg.sender.call{value: earned}("");
+
+        (bool sent, ) = (msg.sender).call{value: earned}("");
         require(sent, "Failed to send ether");
     }
+
+    receive() external payable {}
+    fallback() external payable {}
 }
