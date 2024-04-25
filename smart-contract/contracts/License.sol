@@ -40,6 +40,12 @@ contract LicenseFactory is ReentrancyGuard {
         return collections[_index];
     }
 
+    function getPlatformFeeAddress(uint _index) public view returns (address) {
+        address collectionAddress = getCollection(_index);
+        NFTCollection nftCollection = NFTCollection(collectionAddress);
+        return nftCollection.getPlatformFeeAddress();
+    }
+
     function getAllCollections() external view returns (address[] memory) {
         address[] memory tempCollections = new address[](collections.length);
         for (uint i = 0; i < collections.length; i++) {
@@ -59,24 +65,27 @@ contract LicenseFactory is ReentrancyGuard {
     function mintCollection(uint _index) public payable {
         address collectionAddress = getCollection(_index);
         NFTCollection(collectionAddress).mint{value: msg.value}();
-        // apres le mint il faut envoyer les token de ce contract a l'acheteur
         uint quantity = msg.value /
-            NFTCollection(collectionAddress).mintPrice();
-        for (uint i = 0; i < quantity; i++) {
-            NFTCollection(collectionAddress).safeTransferFrom(
-                address(this),
-                msg.sender,
-                NFTCollection(collectionAddress).totalSupply() - 1
-            );
-        }
+            NFTCollection(collectionAddress).getMintPrice();
         uint256 platformFee = (msg.value * 2) / 100;
         uint256 creatorFee = msg.value - platformFee;
         creatorEarned[
             NFTCollection(collectionAddress).getCreator()
         ] += creatorFee;
+
+        for (uint i = 0; i < quantity; i++) {
+            NFTCollection(collectionAddress).safeTransferFrom(
+                address(this),
+                msg.sender,
+                NFTCollection(collectionAddress).getTotalSupply() -
+                    quantity +
+                    i +
+                    1
+            );
+        }
     }
 
-    function claim(uint _index) public nonReentrant entrancy {
+    function claim(uint _index) public {
         address collectionAddress = getCollection(_index);
         NFTCollection nftCollection = NFTCollection(collectionAddress);
         require(

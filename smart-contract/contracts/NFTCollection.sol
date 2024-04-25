@@ -48,19 +48,24 @@ contract NFTCollection is ERC721, ReentrancyGuard {
             SafeMath.mul(msg.value, platformFeePercentage),
             100
         );
-        (bool platformFeeSent, ) = platformFeeAddress.call{
+
+        (bool platformFeeSent, ) = (platformFeeAddress).call{
             value: totalPlatformFee
         }("");
+
+        // balance of contract
+        require(
+            address(this).balance >= totalPlatformFee,
+            "Insufficient balance"
+        );
         require(platformFeeSent, "Failed to send platform fee");
 
-        (bool factorySent, ) = factoryAddress.call{
-            value: SafeMath.sub(msg.value, totalPlatformFee)
-        }("");
+        (bool factorySent, ) = factoryAddress.call{value: 1}("");
         require(factorySent, "Failed to send creator fund");
 
         for (uint256 i = 0; i < quantity; i++) {
             totalSupply = SafeMath.add(totalSupply, 1);
-            _safeMint(msg.sender, totalSupply);
+            _mint(msg.sender, totalSupply);
         }
     }
 
@@ -80,7 +85,7 @@ contract NFTCollection is ERC721, ReentrancyGuard {
         return platformFeeAddress;
     }
 
-    function getPlatformFeePercentage() public view returns (uint256) {
+    function getPlatformFeePercentage() public pure returns (uint256) {
         return platformFeePercentage;
     }
 
