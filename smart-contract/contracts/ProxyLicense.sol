@@ -11,7 +11,7 @@ contract ProxyLicense {
     }
 
     constructor(address target) {
-        _owner = msg.sender;
+        _owner = msg.sender; // The address deploying the contract becomes the owner
         _target = target;
     }
 
@@ -28,6 +28,8 @@ contract ProxyLicense {
         return _owner;
     }
 
+    event Debug(address indexed from, address indexed target, bool success);
+
     function createLicenseCollection(
         string memory _name,
         string memory _symbol,
@@ -37,14 +39,16 @@ contract ProxyLicense {
     ) public {
         (bool success, ) = _target.delegatecall(
             abi.encodeWithSignature(
-                "createLicenseCollection(string,string,uint256,uint256,string)",
+                "createLicenseCollection(string,string,uint256,uint256,string,address)",
                 _name,
                 _symbol,
                 _mintPrice,
                 _maxSupply,
-                _URI
+                _URI,
+                msg.sender // Passer msg.sender si nécessaire pour la logique interne
             )
         );
+        emit Debug(msg.sender, _target, success);
         require(success, "Delegatecall failed");
     }
 
@@ -72,6 +76,49 @@ contract ProxyLicense {
         return abi.decode(result, (bool));
     }
 
+    // Proxy function for mintCollection
+    function mintCollection(uint _index, address _to) public payable {
+        (bool success, ) = _target.delegatecall(
+            abi.encodeWithSignature(
+                "mintCollection(uint256,address)",
+                _index,
+                _to
+            )
+        );
+        require(success, "Delegatecall failed");
+    }
+
+    // Proxy function for claim
+    function claim(address _caller) public {
+        (bool success, ) = _target.delegatecall(
+            abi.encodeWithSignature("claim(address)", _caller)
+        );
+        require(success, "Delegatecall failed");
+    }
+
+    // Proxy function for getCreatorCollections
+    function getCreatorCollections(
+        address _creator
+    ) public view returns (address[] memory) {
+        (bool success, bytes memory result) = _target.staticcall(
+            abi.encodeWithSignature("getCreatorCollections(address)", _creator)
+        );
+        require(success, "Staticcall failed");
+        return abi.decode(result, (address[]));
+    }
+
+    // Proxy function for getUserLicenses
+    function getUserLicenses(
+        address _user
+    ) public view returns (address[] memory) {
+        (bool success, bytes memory result) = _target.staticcall(
+            abi.encodeWithSignature("getUserLicenses(address)", _user)
+        );
+        require(success, "Staticcall failed");
+        return abi.decode(result, (address[]));
+    }
+
+    // Fallback function for handling other calls and delegate them to the target
     fallback() external payable {
         address implementation = _target;
         assembly {

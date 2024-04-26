@@ -2,7 +2,7 @@
 pragma solidity ^0.8.20;
 
 contract ProxyLicense {
-    address private _target;
+    address private _implementation;
     address private _owner;
 
     modifier onlyOwner() {
@@ -10,13 +10,13 @@ contract ProxyLicense {
         _;
     }
 
-    constructor(address target) {
-        _owner = msg.sender;
-        _target = target;
+    constructor(address implementation) {
+        _owner = msg.sender; // L'adresse déployant le contrat devient owner
+        _implementation = implementation;
     }
 
-    function setTarget(address newTarget) public onlyOwner {
-        _target = newTarget;
+    function setImplementation(address newImplementation) public onlyOwner {
+        _implementation = newImplementation;
     }
 
     function changeOwner(address newOwner) public onlyOwner {
@@ -30,10 +30,17 @@ contract ProxyLicense {
 
     // Fallback function is used when msg.data is not empty
     fallback() external payable {
-        address target = _target;
+        address implementation = _implementation;
         assembly {
             calldatacopy(0, 0, calldatasize())
-            let result := delegatecall(gas(), target, 0, calldatasize(), 0, 0)
+            let result := delegatecall(
+                gas(),
+                implementation,
+                0,
+                calldatasize(),
+                0,
+                0
+            )
             returndatacopy(0, 0, returndatasize())
             switch result
             case 0 {
@@ -45,5 +52,8 @@ contract ProxyLicense {
         }
     }
 
-    receive() external payable {}
+    // Receive function is used when msg.data is empty
+    receive() external payable {
+        // Optional: Add custom logic when receiving Ether with empty call data
+    }
 }
