@@ -1,5 +1,7 @@
 # Licences Blockchain Platform
 
+[Liens du Figma](https://www.figma.com/file/7gQniYBbUTHSFX85mzBD52/Untitled?type=design&node-id=0%3A1&mode=design&t=Vw59N7LdBS0eKMd9-1)
+
 ## 🖼️ Aperçu de l'Architecture
 
 Notre projet est une plateforme basée sur la blockchain qui permet aux créateurs de vendre des licences sous forme de tokens non fongibles (NFT). Voici comment les différents composants interagissent :
