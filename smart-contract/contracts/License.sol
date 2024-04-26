@@ -63,6 +63,10 @@ contract LicenseFactory is ReentrancyGuard {
         return tempCollections;
     }
 
+    function testProxy(uint number) public pure returns (bool) {
+        return number % 2 == 0;
+    }
+
     function getOwnerOfCollection(
         uint256 _index
     ) public view returns (address) {
