@@ -22,12 +22,13 @@ contract NFTCollection is ERC721, ReentrancyGuard {
         uint256 _mintPrice,
         uint256 _maxSupply,
         address _platformFeeAddress,
-        string memory _URI
+        string memory _URI,
+        address _dest
     ) ERC721(name, symbol) {
         mintPrice = _mintPrice;
         maxSupply = _maxSupply;
         platformFeeAddress = _platformFeeAddress;
-        creator = tx.origin;
+        creator = _dest;
         factoryAddress = msg.sender;
         URI = _URI;
     }
