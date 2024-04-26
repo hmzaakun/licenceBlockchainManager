@@ -14,10 +14,12 @@ const Licences = () => {
             let allURIs: ITokenURI[] = [];
             for (let i = 0; i < licences.length; i++) {
                 const uri = await getTokenURI(licences[i]);
-                console.log(licences[i]);
+                console.log(uri);
                 const uriToJson = await getJsonInfos(uri);
                 allURIs.push(uriToJson);
             }
+            console.log(allURIs);
+            
             setURIs(allURIs);
         }
         getDatas();
