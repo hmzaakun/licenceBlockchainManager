@@ -65,12 +65,6 @@ contract LicenseFactory is ReentrancyGuard {
         return tempCollections;
     }
 
-    function getUserLicenses(
-        address _user
-    ) public view returns (address[] memory) {
-        return userLicenses[_user];
-    }
-
     function getOwnerOfCollection(
         uint256 _index
     ) public view returns (address) {
@@ -106,6 +100,12 @@ contract LicenseFactory is ReentrancyGuard {
                     1
             );
         }
+    }
+
+    function getUserLicenses(
+        address _user
+    ) public view returns (address[] memory) {
+        return userLicenses[_user];
     }
 
     function claim(uint _index) public nonReentrant {
