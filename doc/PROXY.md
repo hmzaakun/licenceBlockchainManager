@@ -4,6 +4,8 @@
 
 Un **proxy** dans la blockchain est un contrat qui sert d'intermédiaire pour déléguer des appels à un autre contrat, connu sous le nom de contrat d'implémentation ou de logique. Imaginez-le comme un téléphone portable : lorsque vous voulez mettre à jour le logiciel (la logique), vous n'avez pas besoin de changer de téléphone (le proxy); vous mettez juste à jour l'application.
 
+![Image Proxy](https://www.google.com/imgres?q=proxy%20smart%20contract&imgurl=https%3A%2F%2Fi.stack.imgur.com%2F5VEOd.png&imgrefurl=https%3A%2F%2Fethereum.stackexchange.com%2Fquestions%2F2404%2Fupgradeable-smart-contracts&docid=sWOasYJHnm42-M&tbnid=GqxriPP1DcSOFM&vet=12ahUKEwimzP6fsuCFAxUtVqQEHY7DD48QM3oECBMQAA..i&w=1920&h=1080&hcb=2&ved=2ahUKEwimzP6fsuCFAxUtVqQEHY7DD48QM3oECBMQAA)
+
 ## 🔄 Pourquoi Utiliser un Proxy?
 
 L'utilisation de proxies dans la blockchain permet:
