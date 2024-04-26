@@ -22,7 +22,7 @@ const Create = () => {
             const data = {
                 name,
                 description,
-                imageHash,
+                image: `https://ipfs.io/ipfs/${imageHash}`,
             };
             const jsonFileResponse = await pinJSONToIPFS("metada", JSON.stringify(data));
             console.log("json", jsonFileResponse.IpfsHash);
@@ -78,7 +78,7 @@ const Create = () => {
 
                 <div className="text-center">
                     <button
-                        type="submit"
+                        type="submit" disabled={message!=="Create licences"}
                         className="inline-block w-full rounded-lg bg-black px-5 py-3 font-medium text-white sm:w-auto"
                     >
                         {message}

@@ -1,10 +1,8 @@
-import { createThirdwebClient } from "thirdweb";
 import { ThirdwebProvider, ConnectButton } from "thirdweb/react";
 import { sepolia } from "thirdweb/chains";
+import { client } from "../../utils/contracts/variables";
 
-const client = createThirdwebClient({
-    clientId: process.env.REACT_APP_THIRDWEB_CLIENT_ID || "",
-});
+
 
 const Connect = () => {
 
