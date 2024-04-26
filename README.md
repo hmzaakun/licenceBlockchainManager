@@ -1,4 +1,4 @@
-# README pour le Projet de Licences Blockchain
+# Licences Blockchain Platform
 
 ## 🖼️ Aperçu de l'Architecture
 
