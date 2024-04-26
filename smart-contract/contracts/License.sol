@@ -14,6 +14,8 @@ contract LicenseFactory is ReentrancyGuard {
     mapping(address => address[]) public creatorCollections;
     // creator and earned amount
     mapping(address => uint256) public creatorEarned;
+    // user and licenses
+    mapping(address => address[]) public userLicenses;
 
     event CollectionCreated(
         address indexed creator,
@@ -63,6 +65,12 @@ contract LicenseFactory is ReentrancyGuard {
         return tempCollections;
     }
 
+    function getUserLicenses(
+        address _user
+    ) public view returns (address[] memory) {
+        return userLicenses[_user];
+    }
+
     function getOwnerOfCollection(
         uint256 _index
     ) public view returns (address) {
@@ -86,6 +94,7 @@ contract LicenseFactory is ReentrancyGuard {
         creatorEarned[
             NFTCollection(collectionAddress).getCreator()
         ] += creatorFee;
+        userLicenses[msg.sender].push(collectionAddress);
 
         for (uint i = 0; i < quantity; i++) {
             NFTCollection(collectionAddress).safeTransferFrom(
