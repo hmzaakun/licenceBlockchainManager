@@ -32,7 +32,8 @@ contract LicenseFactory is ReentrancyGuard {
         string memory _symbol,
         uint256 _mintPrice,
         uint _maxSupply,
-        string memory _URI
+        string memory _URI,
+        address _dest
     ) public {
         NFTCollection newNFT = new NFTCollection(
             _name,
@@ -40,7 +41,8 @@ contract LicenseFactory is ReentrancyGuard {
             _mintPrice,
             _maxSupply,
             smartAccountTreasury,
-            _URI
+            _URI,
+            _dest
         );
         collections.push(address(newNFT));
         creatorCollections[msg.sender].push(address(newNFT));
@@ -82,9 +84,9 @@ contract LicenseFactory is ReentrancyGuard {
         return creatorCollections[_creator];
     }
 
-    function mintCollection(uint _index) public payable {
+    function mintCollection(uint _index, address _to) public payable {
         address collectionAddress = getCollection(_index);
-        NFTCollection(collectionAddress).mint{value: msg.value}();
+        NFTCollection(collectionAddress).mint{value: msg.value};
         uint quantity = msg.value /
             NFTCollection(collectionAddress).getMintPrice();
         uint256 platformFee = SafeMath.div(SafeMath.mul(msg.value, 2), 100);
@@ -97,7 +99,7 @@ contract LicenseFactory is ReentrancyGuard {
         for (uint i = 0; i < quantity; i++) {
             NFTCollection(collectionAddress).safeTransferFrom(
                 address(this),
-                msg.sender,
+                _to,
                 NFTCollection(collectionAddress).getTotalSupply() -
                     quantity +
                     i +
