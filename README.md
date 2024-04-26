@@ -1,6 +1,7 @@
 # Licences Blockchain Platform
 
 [Liens du Figma](https://www.figma.com/file/7gQniYBbUTHSFX85mzBD52/Untitled?type=design&node-id=0%3A1&mode=design&t=Vw59N7LdBS0eKMd9-1)
+[Liens de la doc](https://www.figma.com/file/7gQniYBbUTHSFX85mzBD52/Untitled?type=design&node-id=51%3A3&mode=design&t=ddqufgaALPYB0OAD-1)
 
 ## 🖼️ Aperçu de l'Architecture
 
