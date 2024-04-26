@@ -32,7 +32,8 @@ contract LicenseFactory is ReentrancyGuard {
         string memory _symbol,
         uint256 _mintPrice,
         uint _maxSupply,
-        string memory _URI
+        string memory _URI,
+        address _dest
     ) public {
         NFTCollection newNFT = new NFTCollection(
             _name,
@@ -40,11 +41,12 @@ contract LicenseFactory is ReentrancyGuard {
             _mintPrice,
             _maxSupply,
             smartAccountTreasury,
-            _URI
+            _URI,
+            _dest
         );
         collections.push(address(newNFT));
-        creatorCollections[msg.sender].push(address(newNFT));
-        emit CollectionCreated(msg.sender, address(newNFT));
+        creatorCollections[_dest].push(address(newNFT));
+        emit CollectionCreated(_dest, address(newNFT));
     }
 
     function getCollection(uint _index) public view returns (address) {
@@ -82,7 +84,7 @@ contract LicenseFactory is ReentrancyGuard {
         return creatorCollections[_creator];
     }
 
-    function mintCollection(uint _index) public payable {
+    function mintCollection(uint _index, address _to) public payable {
         address collectionAddress = getCollection(_index);
         NFTCollection(collectionAddress).mint{value: msg.value}();
         uint quantity = msg.value /
@@ -92,12 +94,12 @@ contract LicenseFactory is ReentrancyGuard {
         creatorEarned[
             NFTCollection(collectionAddress).getCreator()
         ] += creatorFee;
-        userLicenses[msg.sender].push(collectionAddress);
+        userLicenses[_to].push(collectionAddress);
 
         for (uint i = 0; i < quantity; i++) {
             NFTCollection(collectionAddress).safeTransferFrom(
                 address(this),
-                msg.sender,
+                _to,
                 NFTCollection(collectionAddress).getTotalSupply() -
                     quantity +
                     i +
@@ -112,21 +114,14 @@ contract LicenseFactory is ReentrancyGuard {
         return userLicenses[_user];
     }
 
-    function claim(uint _index) public nonReentrant {
-        address collectionAddress = getCollection(_index);
-        NFTCollection nftCollection = NFTCollection(collectionAddress);
-        require(
-            nftCollection.getCreator() == msg.sender,
-            "Only creator can claim"
-        );
-
-        uint earned = creatorEarned[msg.sender];
+    function claim(address _caller) public nonReentrant {
+        uint earned = creatorEarned[_caller];
 
         require(earned > 0, "No funds to claim");
 
-        creatorEarned[msg.sender] = 0;
+        creatorEarned[_caller] = 0;
 
-        (bool sent, ) = (msg.sender).call{value: earned}("");
+        (bool sent, ) = (_caller).call{value: earned}("");
         require(sent, "Failed to send ether");
     }
 

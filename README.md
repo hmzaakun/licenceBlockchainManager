@@ -1,60 +1,59 @@
-# Readme pour le Projet de Licences Blockchain
+# Licences Blockchain Platform
 
-## 🌐 Site Web
+## 🖼️ Aperçu de l'Architecture
 
-Commencez par créer un compte sur notre site web. C'est votre porte d'entrée vers l'achat et la gestion de licences numériques.
+Notre projet est une plateforme basée sur la blockchain qui permet aux créateurs de vendre des licences sous forme de tokens non fongibles (NFT). Voici comment les différents composants interagissent :
 
-## 👤 Création de Compte
+- **Site Web**: Interface principale pour les utilisateurs, où ils peuvent créer des comptes et gérer leurs licences NFT.
+- **Create Wallet**: Les utilisateurs créent un portefeuille numérique via Thirdweb pour stocker et gérer leurs NFT.
+- **Creator**: Les créateurs peuvent ajouter des collections d'NFT à la plateforme.
+- **Proxy**: Permet de modifier la logique du contrat Factory sans changer l'adresse du contrat.
+- **Factory (License.sol)**: Un smart contract qui crée des collections d'NFT et gère la vente des licences.
+- **Collection (ERC721)**: Les NFT individuels représentant les licences.
+- **User**: Les utilisateurs achètent des licences NFT en ajoutant des fonds via Moonpay.
+- **Admins**: Gèrent la plateforme et le trésor des revenus stocké dans le Gnosis Safe.
 
-Pour interagir avec notre plateforme, vous aurez besoin de créer un compte. C'est rapide, facile et la première étape pour accéder à nos services.
+![Image architecture](https://cdn.discordapp.com/attachments/1232994091399118849/1233384335948775424/image.png?ex=662ce62c&is=662b94ac&hm=ae89cc5002b7c65cd79088a4f60caee32d2998c6dd41f190e147a41bbe8fd089&)
 
-## 🎨 Créateurs
+## 🚀 Comment Lancer le Projet
 
-En tant que créateur, vous aurez le pouvoir d'ajouter des rôles et de gérer votre présence sur la plateforme.
+Pour démarrer le projet sur votre machine locale, suivez ces étapes :
 
-1. **Ajouter des Rôles** : Définissez votre rôle dans notre système pour personnaliser votre expérience et vos capacités.
+1. Cloner le dépôt de code sur votre machine locale.
+2. Naviguez vers le dossier du projet dans votre terminal.
+3. Exécutez la commande suivante pour installer toutes les dépendances :
 
-## 💼 Proxy et Usine
+   ```sh
+   npm install
+   ```
 
-Ces composants gèrent la création et la réclamation de licences (tokens non fongibles) en s'assurant que les processus sont sécurisés et efficaces.
+4. Pour démarrer le serveur de développement, exécutez :
 
-1. **Proxy** : Agit comme un intermédiaire pour les transactions, offrant une couche supplémentaire de sécurité et de flexibilité.
-2. **Usine** : Où les nouvelles collections de licences (représentées par des tokens ERC721) sont créées.
+   ```sh
+   npm start
+   ```
 
-## 💳 Utilisateurs et Ramp
+5. Le projet devrait maintenant être en cours d'exécution sur `http://localhost:3000`.
 
-Pour les utilisateurs, il est facile d'ajouter des fonds et d'acheter des licences.
+## 📜 Adresses des Smart Contracts et Smart Account
 
-1. **Ajouter des Fonds** : Utilisez le service Ramp pour ajouter des fonds à votre portefeuille.
-2. **Acheter Licence (NFT)** : Acquérir une licence numérique en tant que NFT avec une commission de 2% reversée à la plateforme.
+Pour interagir avec la blockchain, vous aurez besoin des adresses des smart contracts et du smart account (Gnosis Safe). Vous pouvez les trouver ci-dessous ceux qui sont déjà déployer sur sépolia testnet:
 
-## 🏦 Admins et Gnosis Safe
+- **License Factory Contract**: `0x56374A1da8AE3d39F249C63E955F5a347Bb0E615`
+- **Proxy Contract (Version 1)**: `0x7009469e65b885Dc195d9D6B86E27b8B9eD53325`
+- **Proxy Contract (Version 2)**: `0x834fBD93C4df302E83018A8Cf85E8AAB6be3324e`
+- **Smart Account Treasury (Gnosis Safe)**: `0x86F2986999A3eE70fD12d595d5812Ad76226e614`
 
-Nos administrateurs s'assurent que tout fonctionne sans heurt et que les revenus sont sécurisés.
+## 🛠️ Développement
 
-1. **Admins** : Gèrent les opérations quotidiennes et assurent le bon déroulement de la plateforme.
-2. **Gnosis Safe** : Un coffre-fort numérique pour sécuriser les actifs et les revenus de la plateforme.
+Notre front-end est construit avec React et utilise Thirdweb pour la connexion au portefeuille. Moonpay est intégré pour permettre aux utilisateurs de créditer leurs wallets avec une carte bancaire.
 
-## 📦 Création de Wallet
+### Smart Contracts
 
-Créez un portefeuille numérique avec Web3Auth pour stocker et gérer vos actifs numériques en toute sécurité.
+Nous avons deux versions du smart contract `ProxyLicense.sol` pour gérer la logique de nos licences NFT, ainsi que `License.sol` qui agit comme une Factory pour créer des collections d'NFT.
 
-## 📈 Évolution du Système
+### Sécurité
 
-Notre plateforme est conçue pour évoluer. Nous nous adaptons et grandissons avec le marché pour vous fournir les meilleurs services possibles.
+Le contrat Factory inclut `ReentrancyGuard` pour prévenir les attaques de réentrance et `SafeMath` pour des calculs sécurisés sans dépassements de capacité.
 
 ---
-
-Pour plus d'informations et de détails sur la manière de démarrer avec notre plateforme, veuillez visiter notre documentation officielle ou nous contacter directement. 🚀🔒
-
----
-
-Si vous avez des questions ou avez besoin d'assistance, n'hésitez pas à rejoindre notre communauté ou à contacter notre équipe de support. Nous sommes là pour vous aider à naviguer dans le monde excitant des licences blockchain ! 🤝💡
-
-🔗 Liens utiles:
-
-- [Documentation Officielle](#)
-- [FAQ](#)
-- [Support et Communauté](#)
-
-Bonne découverte et à très vite sur notre plateforme !
