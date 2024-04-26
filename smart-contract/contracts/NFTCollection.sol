@@ -15,6 +15,7 @@ contract NFTCollection is ERC721, ReentrancyGuard {
     address private factoryAddress;
     string private URI;
 
+    event NFTMinted(address indexed owner, uint256 indexed tokenId);
     constructor(
         string memory name,
         string memory symbol,
@@ -71,6 +72,7 @@ contract NFTCollection is ERC721, ReentrancyGuard {
         for (uint256 i = 0; i < quantity; i++) {
             totalSupply = SafeMath.add(totalSupply, 1);
             _mint(msg.sender, totalSupply);
+            emit NFTMinted(msg.sender, totalSupply);
         }
     }
 

@@ -14,6 +14,12 @@ contract LicenseFactory is ReentrancyGuard {
     mapping(address => address[]) public creatorCollections;
     // creator and earned amount
     mapping(address => uint256) public creatorEarned;
+
+    event CollectionCreated(
+        address indexed creator,
+        address indexed collection
+    );
+
     constructor(address _smartAccountTreasury) {
         Owner = msg.sender;
         smartAccountTreasury = _smartAccountTreasury;
@@ -36,6 +42,7 @@ contract LicenseFactory is ReentrancyGuard {
         );
         collections.push(address(newNFT));
         creatorCollections[msg.sender].push(address(newNFT));
+        emit CollectionCreated(msg.sender, address(newNFT));
     }
 
     function getCollection(uint _index) public view returns (address) {
