@@ -35,6 +35,8 @@ export async function createLicenseCollection(caller: string, name: string, symb
 }
 
 export async function mintCollection(caller: string, id: string, value: string) {
+    console.log("mintCollection", caller, id, toWei(value));
+    
     try {
         const account = await create_wallet();
         const tx = prepareContractCall({
