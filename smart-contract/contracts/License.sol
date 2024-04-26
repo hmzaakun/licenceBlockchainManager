@@ -74,6 +74,11 @@ contract LicenseFactory is ReentrancyGuard {
         NFTCollection nftCollection = NFTCollection(collectionAddress);
         return nftCollection.getCreator();
     }
+    function getCreatorCollections(
+        address _creator
+    ) public view returns (address[] memory) {
+        return creatorCollections[_creator];
+    }
 
     function mintCollection(uint _index) public payable {
         address collectionAddress = getCollection(_index);
