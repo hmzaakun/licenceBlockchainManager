@@ -86,7 +86,7 @@ contract LicenseFactory is ReentrancyGuard {
 
     function mintCollection(uint _index, address _to) public payable {
         address collectionAddress = getCollection(_index);
-        NFTCollection(collectionAddress).mint{value: msg.value};
+        NFTCollection(collectionAddress).mint{value: msg.value}();
         uint quantity = msg.value /
             NFTCollection(collectionAddress).getMintPrice();
         uint256 platformFee = SafeMath.div(SafeMath.mul(msg.value, 2), 100);
