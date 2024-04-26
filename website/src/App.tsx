@@ -13,6 +13,7 @@ import Profile from './components/profile/profile';
 import Create from './components/create/create';
 import Licence from './components/licence/licence';
 import { MoonPayProvider } from '@moonpay/moonpay-react';
+import TestProxy from './components/testProxy/testProxy';
 
 const COLORS_TOP = ["#13FFAA", "#1E67C6", "#CE84CF", "#DD335C"];
 
@@ -40,6 +41,7 @@ function App() {
             <Route path='/Licence/:id' element={<Licence />} />
             <Route path="/Profile" element={<Profile />} />
             <Route path="/Create" element={<Create />} />
+            <Route path="/Proxy" element={<TestProxy />} />
           </Routes>
         </div>
       </motion.section>

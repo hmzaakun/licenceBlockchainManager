@@ -5,7 +5,6 @@ import { useConnectedWallets } from "thirdweb/react";
 import BuyWithMoonpay from "../connexion/buyCrypto";
 
 const Header = () => {
-    const [user,] = useState("null");
     const wallets = useConnectedWallets();
     const [showModal, setShowModal] = useState(false);
 
@@ -21,17 +20,15 @@ const Header = () => {
                             <li>
                                 <Link to={"/Licences"} className="text-gray-500 transition hover:text-gray-500/75"> Licences </Link>
                             </li>
-                            {user &&
-                                <>
-                                    <li>
-                                        <Link to={"/Profile"} className="text-gray-500 transition hover:text-gray-500/75"> My licences </Link>
-                                    </li>
-
-                                    <li>
-                                        <Link to={"/Create"} className="text-gray-500 transition hover:text-gray-500/75"> Create </Link>
-                                    </li>
-                                </>
-                            }
+                            <li>
+                                <Link to={"/Profile"} className="text-gray-500 transition hover:text-gray-500/75"> My licences </Link>
+                            </li>
+                            <li>
+                                <Link to={"/Create"} className="text-gray-500 transition hover:text-gray-500/75"> Create </Link>
+                            </li>
+                            <li>
+                                <Link to={"/Proxy"} className="text-gray-500 transition hover:text-gray-500/75"> Proxy </Link>
+                            </li>
                         </ul>
                     </nav>
 
